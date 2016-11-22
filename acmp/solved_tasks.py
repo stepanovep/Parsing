@@ -7,6 +7,15 @@ def get_html(url):
     return response.read()
 
 
+def get_tasks_count():
+    archive_tasks_url = 'http://acmp.ru/index.asp?main=tasks'
+    html = get_html(archive_tasks_url)
+    soup = BeautifulSoup(html, 'html.parser')
+    b = soup.find('b', {'class': 'btext'}).text
+    splitted = b.split(' ')
+    return int(splitted[-1])
+
+
 def get_solved_tasks(author_url):
     html = get_html(author_url)
     soup = BeautifulSoup(html, 'html.parser')
@@ -42,11 +51,12 @@ def get_tasks_url(tasks_id):
 
 def main():
     author_url = 'http://acmp.ru/?main=user&id=106586'
-    author_url2 = 'http://acmp.ru/?main=user&id=85473'
+    author_url2 = 'http://acmp.ru/?main=user&id=6263'
 
     tasks = get_tasks_url(get_difference(author_url2, author_url))
-    for task in tasks:
-        print(task)
+    #print(*tasks, sep='\n')
+
+    print(get_tasks_count())
 
 
 if __name__ == '__main__':
