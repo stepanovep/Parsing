@@ -2,8 +2,10 @@ import csv
 import codecs
 import urllib.request
 from bs4 import BeautifulSoup
+from acmp.solved_tasks import get_tasks_count
 
 best_solutions_url = 'http://acmp.ru/index.asp?main=bstatus&id_t='
+tasks_count = get_tasks_count()
 
 
 def save_task(task, path):
@@ -17,9 +19,10 @@ def save_task(task, path):
 
 
 def save_all():
-    for j in range(1, 701):
-        if j % 7 == 0:
-            print('In progress: {}%'.format(j / 7))
+    one_percent = tasks_count // 100
+    for j in range(1, tasks_count+1):
+        if j % one_percent == 0:
+            print('Parsing progress: {}%'.format(j // one_percent))
         task = get_best_solutions('{}{}'.format(best_solutions_url, j))
         save_task(task, 'tasks/{}.csv'.format(str(j).zfill(4)))
 
@@ -47,7 +50,7 @@ def load_task(task_id):
 def load_all():
     tasks = []
     tasks.append([])
-    for j in range(1, 701):
+    for j in range(1, tasks_count+1):
         tasks.append(load_task(j))
 
     return tasks
@@ -91,8 +94,9 @@ def tasks_on_top(tasks, name):
 
 
 def main():
+    save_all()
     tasks = load_all()
-    print(tasks_on_top(tasks, 'Хворых Павел').__len__())
+    print(tasks_on_top(tasks, 'Егор Степанов спбгу').__len__())
 
 
 if __name__ == '__main__':
