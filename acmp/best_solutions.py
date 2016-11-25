@@ -18,7 +18,7 @@ def save_task(task, path):
             writer.writerow(author)
 
 
-def save_all():
+def parse_all_problems():
     one_percent = tasks_count // 100
     for j in range(1, tasks_count+1):
         if j % one_percent == 0:
@@ -93,11 +93,41 @@ def tasks_on_top(tasks, name):
     return on_top
 
 
-def main():
-    save_all()
+def get_shortest_tasks(author_url):
+    from acmp.solved_tasks import get_solved_tasks
+    n = get_tasks_count()
     tasks = load_all()
-    print(tasks_on_top(tasks, 'Егор Степанов спбгу').__len__())
 
+    if author_url == '':
+        solved_tasks = set()
+    else:
+        solved_tasks = get_solved_tasks(author_url)
+
+    unsolved = set()
+    for i in range(1, n+1):
+        if i not in solved_tasks:
+            unsolved.add(i)
+
+    th = 150
+    short_tasks = []
+    for i in unsolved:
+        try:
+            if len(tasks[i]) <= 10:
+                continue
+            if tasks[i][10]['Size'] <= th:
+                short_tasks.append(i)
+        except Exception:
+            pass
+
+    return short_tasks
+
+
+def main():
+    author_url = 'http://acmp.ru/?main=user&id=106586'
+    #parse_all_problems()
+    tasks = load_all()
+    print(tasks_on_top(tasks, 'Егор Степанов').__len__())
+    print(*get_shortest_tasks(author_url))
 
 if __name__ == '__main__':
     main()
