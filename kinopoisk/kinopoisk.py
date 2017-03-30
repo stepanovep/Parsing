@@ -32,7 +32,7 @@ def main():
             # print('Общий рейтинг: {}'.format(kinopoisk_rating))
             # print('Рейнтинг пользователя: {}'.format(user_vote))
 
-        print('Пользователь ' + user)
+        print('Пользователь {}'.format(user))
         print(*user_votes)
         print()
         time.sleep(2)

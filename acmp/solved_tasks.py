@@ -57,6 +57,8 @@ def main():
     #print(*tasks, sep='\n')
 
     print(get_tasks_count())
+    i = 5
+    print('variable = {}'.format(i))
 
 
 if __name__ == '__main__':
