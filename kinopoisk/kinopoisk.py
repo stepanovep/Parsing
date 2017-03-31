@@ -9,8 +9,10 @@ def get_html(url):
 
 
 def main():
-
-    users = [4594998]
+    users = [145918, 2961108, 3962681, 7155177, 316688, 2521043, 606004, 2379794, 2632907, 1971057, 6760336, 707741,
+             3534867, 6880365, 1700000, 179882, 1138038, 579327, 1006811, 5010580, 4210787, 7044946, 2817979, 881867,
+             1573883, 1655008, 2611479, 4990235, 892460, 519115, 6344772, 1181079, 3364306, 19645, 3772982, 1419136,
+             5853184]
     for user in users:
         url = 'https://www.kinopoisk.ru/user/{}/list/1/filtr/all/sort/order/perpage/100/'.format(user)
         html = get_html(url)
@@ -20,8 +22,8 @@ def main():
         movies = table.find_all('tr')
         user_votes = []
         for movie in movies:
-            ratingBlock = movie.find('div', {'class': 'ratingBlockP'})
-            kinopoisk_rating = ratingBlock.find('a').text.split(' ')[0]
+            rating_block = movie.find('div', {'class': 'ratingBlockP'})
+            kinopoisk_rating = rating_block.find('a').text.split(' ')[0]
 
             user_vote_block = movie.find('div', {'class': 'userVote'})
             user_vote = 0
@@ -35,7 +37,7 @@ def main():
         print('Пользователь {}'.format(user))
         print(*user_votes)
         print()
-        time.sleep(2)
+        time.sleep(4)
 
 
 if __name__ == '__main__':
